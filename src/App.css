@@ -162,6 +162,7 @@ main, .browse {
 .container {
   padding-block-start: 1rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 2rem;
   padding-inline: 2rem;

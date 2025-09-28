@@ -152,10 +152,10 @@
   border-radius: 10px;
 }
 
-.date {
+/* .date {
   margin-left: 10px;
   color: var(--medium-grey);
-}
+} */
 
 @media (max-width: 767px)  {
   .modalTitle { margin-top: 1rem; }
