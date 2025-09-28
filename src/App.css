@@ -169,6 +169,7 @@ main, .browse {
 
 .all-podcast,
 .genres,
+.sort,
 .date {
   border: 1px solid var(--black);
   padding: 5px 20px;

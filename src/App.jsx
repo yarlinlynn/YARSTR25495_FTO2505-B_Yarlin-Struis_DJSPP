@@ -18,7 +18,11 @@ function App() {
 
   const [selectedGenre, setSelectedGenre] = useState('All');
 
-  const [openModal, setOpenModal] = useState(null)
+  const [openModal, setOpenModal] = useState(null);
+
+  const [sortOrder, setSortOrder] = useState("az");
+
+  const [filterOption, setFilterOption] = useState("Recently Updated");
 
   const itemsPerPage = 10;
   const filteredPodcasts = podcasts
@@ -30,11 +34,22 @@ function App() {
     return podcastGenreTitles.includes(selectedGenre);
   });
 
+  const filteredAndSorted = [...filteredPodcasts].sort((a, b) => {
+    if (filterOption === "Recently Updated") {
+      return new Date(b.updated) - new Date(a.updated); 
+    } else if (filterOption === "Most Popular") {
+      return b.popularity - a.popularity; 
+    } else if (filterOption === "Newest") {
+      return new Date(b.created) - new Date(a.created); 
+    }
+    return 0;
+  });
+
   const genreOptions = genresDropDown(podcasts);
 
   const lastIndex = currentPage * itemsPerPage;
   const firstIndex = lastIndex - itemsPerPage;
-  const records = filteredPodcasts.slice(firstIndex, lastIndex);
+  const records = filteredAndSorted.slice(firstIndex, lastIndex);
 
   const totalPages = Math.ceil(filteredPodcasts.length / itemsPerPage)
   const numbers = [...Array(totalPages + 1).keys()].slice(1);
@@ -89,8 +104,14 @@ function App() {
             <option key={title} value={title}>{title}</option>
           ))}
         </select>
-        <select className='date'>
-          <option value='Date'>Date</option>
+        <select className='sort'  value={sortOrder} onChange={e => setSortOrder(e.target.value)}>
+          <option value="az">A → Z</option>
+          <option value="za">Z → A</option>
+        </select>
+        <select  className='date' value={filterOption} onChange={e => setFilterOption(e.target.value)}>
+          <option value="Recently Updated">Recently Updated</option>
+          <option value="Most Popular">Most Popular</option>
+          <option value="Newest">Newest</option>
         </select>
       </section>
 
