@@ -1,5 +1,5 @@
 import { format, parseISO } from 'date-fns';
-import getGenreTitles from "../../utils/getGenres";
+import { getGenreTitles } from "../../utils/getGenres";
 
 /**
  * Renders a single podcast card with title, description, date, season and genres.

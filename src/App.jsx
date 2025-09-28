@@ -6,6 +6,7 @@ import DekstopHeader from '../components/Header/DesktopHeader.jsx';
 import { IoCloseOutline } from "react-icons/io5";
 import PodcastGrid from '../components/Podcast/PodcastGrid.jsx';
 // import { prePage, changePage, nextPage } from '../utils/pagination.js';
+import { getGenreTitles, genresDropDown } from '../utils/getGenres.js';
 
 function App() {
   const [podcasts, setPodcast] = useState([]);
@@ -15,8 +16,19 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const [selectedGenre, setSelectedGenre] = useState('All');
+
   const itemsPerPage = 10;
-  const filteredPodcasts = podcasts.filter( (podcast) => podcast.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredPodcasts = podcasts
+  .filter( (podcast) => podcast.title.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+  .filter(podcast => {
+    if (selectedGenre === "All") return true;
+    const podcastGenreTitles = getGenreTitles(podcast);
+    return podcastGenreTitles.includes(selectedGenre);
+  });
+
+  const genreOptions = genresDropDown(podcasts);
 
   const lastIndex = currentPage * itemsPerPage;
   const firstIndex = lastIndex - itemsPerPage;
@@ -52,7 +64,6 @@ function App() {
       setCurrentPage(1);
     }, [searchQuery]);
 
-
   return (
     <>
       <DekstopHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -71,9 +82,10 @@ function App() {
       </section> */}
 
       <section className='container'>
-        <span className='all-podcast'>All</span>
-        <select className='genres'>
-          <option value='Genres'>Genres</option>
+        <select className='genres' value={selectedGenre} onChange={e => setSelectedGenre(e.target.value)}>
+          {genreOptions.map(title => (
+            <option key={title} value={title}>{title}</option>
+          ))}
         </select>
         <select className='date'>
           <option value='Date'>Date</option>

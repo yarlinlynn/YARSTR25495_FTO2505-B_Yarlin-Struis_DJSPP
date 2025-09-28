@@ -7,10 +7,14 @@ import { genres } from './data.js';
  * @returns {string[]} Array of genre titles, excluding "Unknown".
  */
 
-function getGenreTitles(podcast) {
+export function getGenreTitles(podcast) {
   return podcast.genres
     .map(id => genres.find(g => g.id === id)?.title || "Unknown")
     .filter(title => title !== "Unknown");
 }
 
-export default getGenreTitles
+
+export function genresDropDown(podcasts) {
+  const genres = ['All', ...new Set(podcasts.flatMap(podcast => getGenreTitles(podcast)))]
+  return genres;
+}
