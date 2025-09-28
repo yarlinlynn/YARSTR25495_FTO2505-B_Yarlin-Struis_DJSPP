@@ -2,7 +2,7 @@ import { GoHomeFill } from "react-icons/go";
 import { IoSearchOutline, IoPerson, IoSunny } from "react-icons/io5";
 import './Header.css';
 
-function DekstopHeader() {
+function DekstopHeader( {searchQuery, setSearchQuery} ) {
     return(
         <header>
             <div className='logo'></div>
@@ -12,7 +12,7 @@ function DekstopHeader() {
                 </span>
                 <div className='search'>
                     <IoSearchOutline className='search-icon' />
-                    <input className='search-input' type="text" placeholder='What do you want to play?' required />
+                    <input className='search-input' onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} type="text" placeholder='What do you want to play?' required />
                 </div>
             </div>
             <div className='theme_profile'>
@@ -25,6 +25,8 @@ function DekstopHeader() {
             </div>
         </header>
     )
+
+    function onChange() {}
 }
 
 export default DekstopHeader

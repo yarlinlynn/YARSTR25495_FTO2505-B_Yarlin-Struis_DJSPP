@@ -5,7 +5,7 @@ import MobileHeader from '../components/Header/MobileHeader.jsx';
 import DekstopHeader from '../components/Header/DesktopHeader.jsx';
 import { IoCloseOutline } from "react-icons/io5";
 import PodcastGrid from '../components/Podcast/PodcastGrid.jsx';
-import { prePage, changePage, nextPage } from '../utils/pagination.js';
+// import { prePage, changePage, nextPage } from '../utils/pagination.js';
 
 function App() {
   const [podcasts, setPodcast] = useState([]);
@@ -13,12 +13,17 @@ function App() {
   const [error, setError] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const perPage = 5;
-  const lastIndex = currentPage * perPage;
-  const firstIndex = lastIndex - perPage;
-  const records = podcasts.slice(firstIndex, lastIndex);
-  const pages = Math.ceil(podcasts.length / perPage);
-  const numbers = [...Array(pages + 1).keys()].slice(1)
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const itemsPerPage = 10;
+  const filteredPodcasts = podcasts.filter( (podcast) => podcast.title.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  const lastIndex = currentPage * itemsPerPage;
+  const firstIndex = lastIndex - itemsPerPage;
+  const records = filteredPodcasts.slice(firstIndex, lastIndex);
+
+  const totalPages = Math.ceil(filteredPodcasts.length / itemsPerPage)
+  const numbers = [...Array(totalPages + 1).keys()].slice(1);
 
   useEffect( () => {
     const fetchPodcasts = async () => {
@@ -43,10 +48,14 @@ function App() {
     return () => clearTimeout(delay)
   }, [])
 
+  useEffect( () => {
+      setCurrentPage(1);
+    }, [searchQuery]);
+
 
   return (
     <>
-      <DekstopHeader />
+      <DekstopHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <MobileHeader/>
 
       {/* <section className='browse'>
@@ -100,20 +109,20 @@ function App() {
       </main>
 
       {/* pagination */}
-      <section>
+      <section className='pagination-container'>
         <ul className='pagination'>
           <li className='page-item'>
-            <a href='#' className='page-link' onClick={prePage}>Prev</a>
+            <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.max(p - 1, 1))}>Prev</a>
           </li>
           {
-            numbers.map( (n, i) => (
-              <li className={`page-item ${currentPage === n ? 'active' : ''}`}>
-                <a href='#' className='page-link' onClick={() => changePage(n)}>{n}</a>
+            numbers.map( (n) => (
+              <li key={n} className={`page-item ${currentPage === n ? 'active' : ''}`}>
+                <a href='#' className='page-link' onClick={() => setCurrentPage(n)}>{n}</a>
               </li>
             ))
           }
           <li className='page-item'>
-            <a href='#' className='page-link' onClick={nextPage}>Next</a>
+            <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.min(p + 1, pages))}>Next</a>
           </li>
         </ul>
       </section>
