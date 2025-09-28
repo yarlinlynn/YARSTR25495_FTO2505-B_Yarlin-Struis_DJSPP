@@ -54,6 +54,8 @@ input {
   width: 100%;
 }
 
+input:focus { outline: none; }
+
 /* loading podcast message */
 
 .loading-container {
@@ -61,10 +63,10 @@ input {
   /* top: 0; */
   right: 0;
   bottom: 0;
-  top: 50%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 50;
+  z-index: 100;
   /* display: none; */
   align-items: center;
   justify-content: center;
@@ -110,7 +112,7 @@ input {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 50;
+  z-index: 100;
   /* display: none; */
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   align-items: center;
@@ -150,7 +152,7 @@ input {
 /* main */
 main, .browse {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 2rem;
   padding: 2rem;
 }
@@ -176,9 +178,19 @@ main, .browse {
 }
 
 /* pagination */
+.pagination-container { margin-bottom: 1rem; }
+
 .pagination {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
+}
+
+.page-item.active { border-bottom: 4px solid var(--soft-indigo); }
+
+@media screen and (min-width: 768px) {
+  main, .browse { 
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  }
 }

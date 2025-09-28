@@ -25,8 +25,6 @@ function DekstopHeader( {searchQuery, setSearchQuery} ) {
             </div>
         </header>
     )
-
-    function onChange() {}
 }
 
 export default DekstopHeader

@@ -5,8 +5,8 @@ import MobileHeader from '../components/Header/MobileHeader.jsx';
 import DekstopHeader from '../components/Header/DesktopHeader.jsx';
 import { IoCloseOutline } from "react-icons/io5";
 import PodcastGrid from '../components/Podcast/PodcastGrid.jsx';
-// import { prePage, changePage, nextPage } from '../utils/pagination.js';
 import { getGenreTitles, genresDropDown } from '../utils/getGenres.js';
+import Modal from "../components/Podcast/PodcastModal.jsx";
 
 function App() {
   const [podcasts, setPodcast] = useState([]);
@@ -17,6 +17,8 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const [selectedGenre, setSelectedGenre] = useState('All');
+
+  const [openModal, setOpenModal] = useState(null)
 
   const itemsPerPage = 10;
   const filteredPodcasts = podcasts
@@ -67,7 +69,7 @@ function App() {
   return (
     <>
       <DekstopHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <MobileHeader/>
+      <MobileHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
       {/* <section className='browse'>
         <h2>Recommended Podcasts</h2>
@@ -134,12 +136,15 @@ function App() {
             ))
           }
           <li className='page-item'>
-            <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.min(p + 1, pages))}>Next</a>
+            <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.min(p + 1, totalPages))}>Next</a>
           </li>
         </ul>
       </section>
 
       {/* modal popup */}
+      {openModal && (
+      <Modal podcast={openModal} onClose={() => setOpenModal(null)} />
+    )}
     </>
   )
 

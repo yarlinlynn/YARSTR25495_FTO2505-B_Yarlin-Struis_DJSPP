@@ -1,34 +1,39 @@
-import { IoSearchOutline, IoLibraryOutline, IoPerson, IoSunny } from "react-icons/io5";
-import { GoHomeFill } from "react-icons/go";
+import { IoSearchOutline, /*IoLibraryOutline, IoPerson, IoSunny*/ } from "react-icons/io5";
+// import { GoHomeFill } from "react-icons/go";
 import './Header.css';
 
-function MobileHeader() {
+function MobileHeader( {searchQuery, setSearchQuery} ) {
     return (
         <>
-            <nav className='mobile-header'>
+            {/* <nav className='mobile-header'>
                 <ul className='nav-container'>
-                    <li className='nav-link' >
+                     <li className='nav-link' >
                         <GoHomeFill />
                         <span>Home</span>
-                    </li>
+                    </li> 
                     <li className='nav-link' >
-                        <IoSearchOutline />
-                        <span>Search</span>
+                        <IoSearchOutline className='search-icon' />
+                        <input className='search-input' onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} type="text" placeholder='What do you want to play?' required />
                     </li>
                     <li className='nav-link' >
                         <IoLibraryOutline />
                         <span>Library</span>
                     </li>
                 </ul>
-            </nav>
+            </nav> */}
 
             <div className='header-container'>
-                <div className="profile">
+                <h1>🎙️</h1>
+                <div className='search'>
+                    <IoSearchOutline className='search-icon' />
+                    <input className='search-input' onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} type="text" placeholder='What do you want to play?' required />
+                </div>
+                {/* <div className="profile">
                     <IoPerson />
                 </div>
                 <div className="theme-btn">
                     <IoSunny />
-                </div>
+                </div> */}
             </div>
         </>
     )
