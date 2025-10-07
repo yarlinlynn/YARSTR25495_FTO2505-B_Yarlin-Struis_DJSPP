@@ -1,91 +1,65 @@
 
+/* mobile header */
 
 .mobile-header {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 55px;
-  padding-top: 1rem;
-  padding-inline: 2.5rem;
-  background: white;
-  color: var(--black);
-  background: var(--white);
-  z-index: 100;
-  /* border-top-left-radius: 10px;
-  border-top-right-radius: 10px; */
-  /* -webkit-box-shadow: 0px -4px 5px 3px var(--medium-grey);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  /* height: 4rem;
   box-shadow: 0px -4px 11px -1px var(--medium-grey); */
 }
 
-.nav-container {
+.mobile-btn { font-size: 1.5rem; }
+
+.nav-list{
+  background: var(--white);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 3rem;
+  z-index: 1000;
+  box-shadow: 0px -4px 11px -1px var(--medium-grey);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 2rem;
+  font-size: 1.2rem;
+}
+
+.nav-item {
+  font-size: 1.6rem;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.nav-item.active {
+  color: #000; /* active icon color */
+}
+
+
+/* desktop header */
+.desktop-header {
+  display: block;
+  padding: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
 }
 
-.nav-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.header-container {
-  background: white;
-  color: var(--black);
+.desktop-header > .component {
   display: flex;
   align-items: center;
-  justify-content: end;
-  /* height: 50px; */
   gap: 1rem;
-  padding-inline: 2.5rem;
-  box-shadow: 0px -4px 11px -1px var(--medium-grey);
-  padding-block: 1rem;
 }
 
-header { display: none; }
-
-.home-search {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.search-component {
+  border-radius: 20px;
+  display: flex;
+  width: 400px;
+  border: 1px solid var(--dark-grey);
+  padding: 0.7rem;
 }
 
-.home {
-    border: 1px solid var(--black);
-    padding: 10px 5px;
-    border-radius: 50vh;
-}
-
-.home > .icon,
-.person-icon > .icon { width: 30px; }
-
-.search {
-    width: 400px;
-    border: 1px solid var(--black);
-    display: flex;
-    padding: 10px;
-    border-radius: 20px;
-}
-
-.search-input { padding-left: 5px; }
-
-.theme_profile {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-
-@media screen and (min-width: 768px) {
-    .mobile-header,
-    .header-container { display: none; }
-
-    header { 
-        display: block; 
-        padding: 2rem;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
-}
+.search-input { padding-left: 10px; }

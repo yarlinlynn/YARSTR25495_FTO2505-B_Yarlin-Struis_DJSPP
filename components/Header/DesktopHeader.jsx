@@ -1,26 +1,30 @@
-import { GoHomeFill } from "react-icons/go";
-import { IoSearchOutline, IoPerson, IoSunny } from "react-icons/io5";
+
+import { BsSearch, BsCollection, BsSun, BsMoon, BsFolder2Open } from "react-icons/bs";
+import { SearchBar } from './Header.jsx';
 import './Header.css';
 
 function DekstopHeader( {searchQuery, setSearchQuery} ) {
     return(
-        <header>
-            <div className='logo'></div>
-            <div className='home-search'>
-                <span className='home'>
-                    <GoHomeFill className='icon' />
-                </span>
-                <div className='search'>
-                    <IoSearchOutline className='search-icon' />
+        <header className='desktop-header'>
+            <div className='podcast-logo'>
+                <h1>🎙️ Podcast App</h1>
+            </div>
+            <div className='component'>
+                {/* searchbar component */}
+                <div className='search-component'>
+                    <BsSearch className='search-icon' />
                     <input className='search-input' onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} type="text" placeholder='What do you want to play?' required />
                 </div>
+                <div className='favourites'>
+                    <BsCollection />
+                    <BsFolder2Open />
+                </div>
             </div>
-            <div className='theme_profile'>
-                <span className='person-icon'>
-                    <IoPerson className='icon' />
-                </span>
-                <div className='theme'>
-                    <IoSunny/>
+            <div className='component'>
+                <div className='profile'></div>
+                <div className='theme-btn'>
+                    <BsSun />
+                    <BsMoon />
                 </div>
             </div>
         </header>

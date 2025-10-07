@@ -1,90 +1,100 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+import HomePage from '../components/Pages/HomePage.jsx';
+import LibraryPage from '../components/Pages/LibraryPage.jsx';
+import SearchPage from '../components/Pages/SearchPage.jsx';
 // import { fetchPodcast } from '../utils/fetchData.js';
-import MobileHeader from '../components/Header/MobileHeader.jsx';
-import DekstopHeader from '../components/Header/DesktopHeader.jsx';
-import { IoCloseOutline } from "react-icons/io5";
+import Header from '../components/Header/Header';
 import PodcastGrid from '../components/Podcast/PodcastGrid.jsx';
 import { getGenreTitles, genresDropDown } from '../utils/getGenres.js';
 import Modal from "../components/Podcast/PodcastModal.jsx";
 
 function App() {
-  const [podcasts, setPodcast] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // setting state
+  // const [podcasts, setPodcast] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [searchQuery, setSearchQuery] = useState('');
 
-  const [selectedGenre, setSelectedGenre] = useState('All');
+  // const [selectedGenre, setSelectedGenre] = useState('All');
 
-  const [openModal, setOpenModal] = useState(null);
+  // const [openModal, setOpenModal] = useState(null);
 
-  const [sortOrder, setSortOrder] = useState("az");
+  // const [sortOrder, setSortOrder] = useState("az");
 
-  const [filterOption, setFilterOption] = useState("Recently Updated");
+  // const [filterOption, setFilterOption] = useState("Recently Updated");
 
-  const itemsPerPage = 10;
-  const filteredPodcasts = podcasts
-  .filter( (podcast) => podcast.title.toLowerCase().includes(searchQuery.toLowerCase())
-  )
-  .filter(podcast => {
-    if (selectedGenre === "All") return true;
-    const podcastGenreTitles = getGenreTitles(podcast);
-    return podcastGenreTitles.includes(selectedGenre);
-  });
+  // const itemsPerPage = 10;
+  // const filteredPodcasts = podcasts
+  // .filter( (podcast) => podcast.title.toLowerCase().includes(searchQuery.toLowerCase())
+  // )
+  // .filter(podcast => {
+  //   if (selectedGenre === "All") return true;
+  //   const podcastGenreTitles = getGenreTitles(podcast);
+  //   return podcastGenreTitles.includes(selectedGenre);
+  // });
 
-  const filteredAndSorted = [...filteredPodcasts].sort((a, b) => {
-    if (filterOption === "Recently Updated") {
-      return new Date(b.updated) - new Date(a.updated); 
-    } else if (filterOption === "Most Popular") {
-      return b.popularity - a.popularity; 
-    } else if (filterOption === "Newest") {
-      return new Date(b.created) - new Date(a.created); 
-    }
-    return 0;
-  });
+  // const filteredAndSorted = [...filteredPodcasts].sort((a, b) => {
+  //   if (filterOption === "Recently Updated") {
+  //     return new Date(b.updated) - new Date(a.updated); 
+  //   } else if (filterOption === "Most Popular") {
+  //     return b.popularity - a.popularity; 
+  //   } else if (filterOption === "Newest") {
+  //     return new Date(b.created) - new Date(a.created); 
+  //   }
+  //   return 0;
+  // });
 
-  const genreOptions = genresDropDown(podcasts);
+  // const genreOptions = genresDropDown(podcasts);
 
-  const lastIndex = currentPage * itemsPerPage;
-  const firstIndex = lastIndex - itemsPerPage;
-  const records = filteredAndSorted.slice(firstIndex, lastIndex);
+  // const lastIndex = currentPage * itemsPerPage;
+  // const firstIndex = lastIndex - itemsPerPage;
+  // const records = filteredAndSorted.slice(firstIndex, lastIndex);
 
-  const totalPages = Math.ceil(filteredPodcasts.length / itemsPerPage)
-  const numbers = [...Array(totalPages + 1).keys()].slice(1);
+  // const totalPages = Math.ceil(filteredPodcasts.length / itemsPerPage)
+  // const numbers = [...Array(totalPages + 1).keys()].slice(1);
 
-  useEffect( () => {
-    const fetchPodcasts = async () => {
-      try {
-        const response = await fetch((`https://podcast-api.netlify.app/`));
-        if(!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        } 
-        const podcasts = await response.json();
-        setPodcast(podcasts)
-        console.log(podcasts)
-      } catch(error) {
-        setError(error)
-      } finally {
-        setLoading(false)
-      }
-    };
+  // useEffect( () => {
+  //   const fetchPodcasts = async () => {
+  //     try {
+  //       const response = await fetch((`https://podcast-api.netlify.app/`));
+  //       if(!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`)
+  //       } 
+  //       const podcasts = await response.json();
+  //       setPodcast(podcasts)
+  //       console.log(podcasts)
+  //     } catch(error) {
+  //       setError(error)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   };
 
-    const delay = setTimeout( () => {
-      fetchPodcasts();
-    }, 2000);
-    return () => clearTimeout(delay)
-  }, [])
+  //   const delay = setTimeout( () => {
+  //     fetchPodcasts();
+  //   }, 2000);
+  //   return () => clearTimeout(delay)
+  // }, [])
 
-  useEffect( () => {
-      setCurrentPage(1);
-    }, [searchQuery]);
+  // useEffect( () => {
+  //     setCurrentPage(1);
+  //   }, [searchQuery]);
 
   return (
     <>
-      <DekstopHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <MobileHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+    
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/search" element={<SearchPage />} />
+      <Route path="/library" element={<LibraryPage />} />
+    </Routes>
+      
+      {/* <DekstopHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} /> */}
+      {/* <MobileHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery}/> */}
 
       {/* <section className='browse'>
         <h2>Recommended Podcasts</h2>
@@ -98,7 +108,7 @@ function App() {
         </div>
       </section> */}
 
-      <section className='container'>
+      {/* <section className='container'>
         <select className='genres' value={selectedGenre} onChange={e => setSelectedGenre(e.target.value)}>
           {genreOptions.map(title => (
             <option key={title} value={title}>{title}</option>
@@ -113,10 +123,10 @@ function App() {
           <option value="Most Popular">Most Popular</option>
           <option value="Newest">Newest</option>
         </select>
-      </section>
+      </section> */}
 
 
-      <main>
+      {/* <main>
 
         {loading ? ( 
           <div className='loading-container'>
@@ -141,10 +151,9 @@ function App() {
         ))
       }
 
-      </main>
+      </main> */}
 
-      {/* pagination */}
-      <section className='pagination-container'>
+      {/* <section className='pagination-container'>
         <ul className='pagination'>
           <li className='page-item'>
             <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.max(p - 1, 1))}>Prev</a>
@@ -160,12 +169,12 @@ function App() {
             <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.min(p + 1, totalPages))}>Next</a>
           </li>
         </ul>
-      </section>
+      </section> */}
 
       {/* modal popup */}
-      {openModal && (
-      <Modal podcast={openModal} onClose={() => setOpenModal(null)} />
-    )}
+      {/* {openModal && (
+        <Modal podcast={openModal} onClose={() => setOpenModal(null)} />
+      )} */}
     </>
   )
 
