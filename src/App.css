@@ -157,6 +157,8 @@ main, .browse {
   padding: 2rem;
 }
 
+main { background: var(--light-grey); }
+
 /* container for filter buttons */
 
 .container {

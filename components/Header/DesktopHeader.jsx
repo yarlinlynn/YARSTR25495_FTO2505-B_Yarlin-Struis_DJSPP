@@ -1,32 +1,30 @@
-
-import { BsSearch, BsCollection, BsSun, BsMoon, BsFolder2Open } from "react-icons/bs";
-import { SearchBar } from './Header.jsx';
+import { Link} from 'react-router-dom';
+import { 
+  BsHeart, 
+  BsSun, BsMoon
+} from 'react-icons/bs';
+import { SearchBar } from '../Shared/SearchBar.jsx';
 import './Header.css';
 
-function DekstopHeader( {searchQuery, setSearchQuery} ) {
-    return(
+
+function DekstopHeader( { searchQuery, setSearchQuery } ) {
+    return (
         <header className='desktop-header'>
             <div className='podcast-logo'>
-                <h1>🎙️ Podcast App</h1>
+                <h1>🎙️ SoundScoop</h1>
             </div>
-            <div className='component'>
-                {/* searchbar component */}
-                <div className='search-component'>
-                    <BsSearch className='search-icon' />
-                    <input className='search-input' onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} type="text" placeholder='What do you want to play?' required />
-                </div>
-                <div className='favourites'>
-                    <BsCollection />
-                    <BsFolder2Open />
-                </div>
-            </div>
-            <div className='component'>
-                <div className='profile'></div>
-                <div className='theme-btn'>
-                    <BsSun />
-                    <BsMoon />
-                </div>
-            </div>
+            <nav className='desktop-nav'>
+                {/* search bar component */}
+                <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+                <Link to="/favourites">
+                    <BsHeart />
+                </Link>
+            </nav>
+            <div className='profile'></div>
+            <button className='theme-btn'>
+                <BsSun />
+                <BsMoon />
+            </button>
         </header>
     )
 }

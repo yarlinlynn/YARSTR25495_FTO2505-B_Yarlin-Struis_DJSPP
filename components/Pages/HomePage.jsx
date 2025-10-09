@@ -60,9 +60,9 @@ function HomePage() {
 
     return (
         <>
-            <Header />
+            <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
 
-            <section className='container'>
+            {/* <section className='container'>
                 <select className='genres' value={selectedGenre} onChange={e => setSelectedGenre(e.target.value)}>
                 {genreOptions.map(title => (
                     <option key={title} value={title}>{title}</option>
@@ -77,7 +77,7 @@ function HomePage() {
                 <option value="Most Popular">Most Popular</option>
                 <option value="Newest">Newest</option>
                 </select>
-            </section>
+            </section> */}
 
             <main>
 
@@ -106,7 +106,7 @@ function HomePage() {
 
             </main>
 
-            <section className='pagination-container'>
+            {/* <section className='pagination-container'>
                 <ul className='pagination'>
                 <li className='page-item'>
                     <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.max(p - 1, 1))}>Prev</a>
@@ -122,7 +122,7 @@ function HomePage() {
                     <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.min(p + 1, totalPages))}>Next</a>
                 </li>
                 </ul>
-            </section>
+            </section> */}
         </>
     )
 }

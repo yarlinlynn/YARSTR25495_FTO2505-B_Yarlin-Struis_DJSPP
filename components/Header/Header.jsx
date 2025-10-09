@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import DekstopHeader from './DesktopHeader.jsx';
 import MobileHeader from './MobileHeader.jsx';
 
-function Header() {
+function Header( { searchQuery, setSearchQuery } ) {
 
     const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
 
@@ -15,19 +15,14 @@ function Header() {
 
   return (
     <>
-    {isMobile ? <MobileHeader /> : <DekstopHeader />}
+      {isMobile ? (
+        <MobileHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      ) : (
+        <DekstopHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      )}
     </>
   );
 
 }
 
 export default Header
-
-export function SearchBar( {searchQuery, setSearchQuery} ) {
-    return (
-        <div className='search-component'>
-            <BsSearch className='search-icon' />
-            <input className='search-input' onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} type="text" placeholder='What do you want to play?' required />
-        </div>
-    )
-}
