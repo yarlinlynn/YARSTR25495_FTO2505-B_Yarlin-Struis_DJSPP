@@ -29,8 +29,6 @@
 
 #root { overflow: hidden; }
 
-/* html { font-size: 65%; } */
-
 li { list-style: none; }
 
 button {
@@ -157,8 +155,6 @@ main, .browse {
   padding: 2rem;
 }
 
-main { background: var(--light-grey); }
-
 /* container for filter buttons */
 
 .container {
@@ -191,7 +187,12 @@ main { background: var(--light-grey); }
   gap: 1rem;
 }
 
-.page-item.active { border-bottom: 4px solid var(--soft-indigo); }
+.page-item.active { 
+  background: var(--indigo);
+  color: var(--white);
+  padding: 5px 10px;
+  border-radius: 60vh;
+}
 
 @media screen and (min-width: 768px) {
   main, .browse { 

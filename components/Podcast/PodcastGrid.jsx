@@ -20,18 +20,19 @@ function PodcastGrid( {podcast} ) {
 
     return (
         <section className="podcast-card" key={podcast.id} id={podcast.id} onClick={() => handlePodcastClick(podcast.id)}>
-            <h2 className="title">{podcast.title}</h2>
+            <img className="podcast-img" src={podcast.image} alt={podcast.title}  loading="lazy"/>
 
             <div className="podcast-container">
-                <span className="podcast-season">{podcast.seasons} seasons</span>
-                <span className="podcast-date">Updated: <span>{formattedDate}</span></span>
+                <h2 className="title">{podcast.title}</h2>
+                <p className="podcast-season">{podcast.seasons} seasons</p>
+                <p className="podcast-date">Updated: <span>{formattedDate}</span></p>
                 {/* <div className="genres-list">
                     {getGenreTitles(podcast).map( (title, i) => (
                         <p key={i} className='genre'>{title}</p>
                     ))} 
                 </div> */}
             </div>
-            <img className="podcast-img" src={podcast.image} alt={podcast.title}  loading="lazy"/>
+            
         </section>
     )
 }

@@ -3,12 +3,12 @@
 .podcast-card {
   position: relative;
   overflow: hidden;
-  
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
   cursor: pointer;
   border-radius: 5px;
   padding: 10px;
-  /* background: var(--white); */
+  background: var(--white);
 }
 
 .podcast-card:hover {
@@ -24,10 +24,10 @@
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-/* .podcast-container {
+.podcast-container {
   display: grid;
-  gap: 1rem;
-} */
+  gap: 0.5rem;
+}
 
 .title { font-size: 16px; }
 
@@ -175,6 +175,13 @@
 
 /* podcast details page */
 
+.homepage-icon { 
+  display: flex;
+  align-items: center;
+  margin: 1rem 1.7rem;
+  gap: 5px;
+}
+
 .podcast-details-page {
   width: 80%;
   margin: 1rem auto;
@@ -182,17 +189,84 @@
 
 .podcast-details {
   display: grid;
-  grid-template-columns: 50% 1fr;
+  grid-template-columns: 1fr;
   gap: 1rem;
   align-items: center;
 }
 
+.details-container > p {
+  font-size: 15px;
+  margin-block: 1rem;
+}
+
 .grid-info {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr;
   align-items: flex-start;
   grid-template-rows: 1fr 1fr;
   gap: 1.5rem;
 }
 
+.grid-info  h4 { margin-bottom: 0.5rem; }
+
 .genres-list { display: block; }
+
+.genre-pill {
+  margin-inline: 10px;
+  background: var(--background-light);
+  padding: 1px 10px;
+  border-radius: 5px;
+}
+
+.season-details {
+  margin-block-start: 2rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+#seasonSelect { margin-left: auto; }
+
+.season-container h4 { margin-bottom: 1rem; }
+
+.episode-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.episode-item {
+  border: 1px solid var(--background-light);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+.episode-item:hover { 
+  background: var(--background-light); 
+  cursor: pointer;
+}
+
+.play-episode, 
+.add-to-favourites { display: none; }
+
+.episode-item:hover .play-episode,
+.episode-item:hover .add-to-favourites { 
+  display: block; 
+  cursor: pointer;
+}
+
+@media screen and (min-width: 600px){
+  .grid-info { grid-template-columns: 2fr 1fr; }
+}
+
+@media screen and (min-width: 800px) {
+  .podcast-details { grid-template-columns: 50% 1fr; }
+}
+
+@media screen and (min-width: 1200px) {
+  .podcast-details { grid-template-columns: 25% 1fr; }
+
+  .grid-info { grid-template-columns: 1fr 1fr; }
+ 
+}
