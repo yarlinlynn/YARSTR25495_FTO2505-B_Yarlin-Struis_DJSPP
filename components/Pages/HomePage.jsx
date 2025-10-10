@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchPodcast } from '../../utils/fetchData.js';
 import PodcastGrid from '../../components/Podcast/PodcastGrid.jsx';
 import { getGenreTitles, genresDropDown } from '../../utils/getGenres.js';
@@ -100,7 +101,9 @@ function HomePage() {
                     </p>
                     </div>
                 ) : records.map( (podcast) => (
-                <PodcastGrid key={podcast.id} podcast={podcast} />
+                    <Link key={podcast.id} to={`/podcast/${podcast.id}`}>
+                        <PodcastGrid key={podcast.id} podcast={podcast} />
+                    </Link>
                 ))
             }
 
