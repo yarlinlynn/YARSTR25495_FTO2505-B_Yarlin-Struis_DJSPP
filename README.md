@@ -1,84 +1,152 @@
 # 🎧 Podcast (React)
 
-A beginner-friendly React app that fetches and displays podcast data from an API.
-This project demonstrates fetching data, handling loading and error states, rendering reusable components, and applying responsive layouts in React.
+The Podcast app is a single-page React application (SPA) that fetches podcast data from a public API and provides interactive features like:
+- Searching podcasts by title
+- Filtering by genre
+- Sorting by date, popularity, or name
+- Viewing detailed podcast information (including seasons and episodes)
+- Saving favorite episodes
 
--  API: https://podcast-api.netlify.app/
+The app is structured around modular React components, each handling a specific UI or data logic task.
 
-### Features
+### Key Features
+- Dynamic Routing using react-router-dom
+- API Integration via fetchPodcast and fetchPodcastDeatils
+- Pagination & Sorting
+- Genre Filtering
+- Search Functionality
+- Loading & Error Handling
 
-- Fetch podcasts from ```podcast-api.netlify.app``` on initial page load
-- Show loading indicator while fetching
-- Handle errors/empty results with clear user messages
-- Render podcasts in a responsive grid layout using reusable components
-- Display podcast details:
-    - Image
-    - Title
-    - Number of seasons
-    - Associated genre names (mapped from local genres.js)
-    - Formatted last updated date (using date-fns)
-- Clean styling with CSS Grid/Flexbox for responsive design
-- Readable, modular code with clear structure and JSDoc comments 
+### Components Breakdown
+#### 1. App.jsx
+The root component that defines all the application routes.
+Responsibilities:
+- Sets up Routes using react-router-dom
+- Renders HomePage, FavouritesPage, and PodcastDetails based on the URL path
 
-### Search  
-- Users can type into a search bar to filter podcasts by title (case-insensitive).  
-- Search works in tandem with other filters and pagination.
+```
+| Path | Component | Description |
+|-----------|-----------|-----------|
+| / | HomePage | Displays podcast list with filters |
+| /favourites | FavouritesPage | Shows saved episodes |
+| /podcast/:id | PodcastDetails | Displays detailed podcast info |
+```
 
-### Genre Filtering  
-- Podcasts often come with genre **IDs** from the API.  
-- Converts those IDs to **human-readable titles** (e.g. `1 → Technology`, `2 → Drama`).  
-- A dropdown lists all genres (plus an “All” option).  
-- When a user selects a genre, only podcasts of that genre are shown.
+#### 2. HomePage.jsx
+The main discovery page where users browse all podcasts.
+Core Responsibilities:
+- Fetch all podcasts from the API using fetchPodcast
+- Manage states: podcasts, loading, error
+- Search input (searchQuery)
+- Genre filtering (selectedGenre)
+- Sorting and pagination
+- Render dynamic podcast cards and pagination controls
 
-### Sorting
-- Sort dropdown allows sorting podcasts:
-  - **A → Z**
-  - **Z → A**
-
-### Filter Options
-- Another dropdown to filter podcasts by:
-  - **Recently Updated** 
-  - **Most Popular** 
-  - **Newest** 
-
-### Pagination  
-- Results are sliced into “pages” (e.g. 10 podcasts per page).  
-- Navigation via “Prev / Next” and page numbers.  
-- Pagination respects current filters and sorting — so changing search or genre resets to page 1 and only shows relevant items.
-
-<br/>
-
-### Tech Stack
-- React
-    - UI library
-- date-fns
-    - for date formatting
-- CSS (Grid/Flexbox) – responsive styling
-- Fetch API – to retrieve podcasts
+```
+| Section | Purpose  |
+|-----------|-----------|
+| State Declarations | Manage app data, filters, pagination, and UI states |
+| Filtering Logic | Filters podcasts by title and genre |
+| Sorting Logic	 | Sorts by updated date, popularity, or creation date |
+| Pagination| Slices the data array into smaller pages |
+| Effects| Fetches podcasts on mount and resets pagination on new search |
+| Render | Displays search bar, dropdown filters, loading/error states, and paginated results |
+```
 
 <br/>
 
-###  How It Works
-1. Fetch podcast data
-- On page load, ```useEffect()``` triggers a ```fetch()``` request to the API.
-- While data is being fetched, a loading indicator is displayed.
-- If fetching fails, a clear error message is shown.
+#### 3. FavouritesPage.jsx
+Displays the user’s saved podcast episodes.
+Responsibilities:
+- Provides a back navigation link to the home page
+- Contains a SearchBar for quick filtering
+- Displays a static or dynamic list of saved episodes 
 
-2. Render podcasts
-- Once data is loaded, podcasts are rendered as a grid of cards.
-- Each card is a reusable PodcastCard component that receives data via props.
-- ``.map()`` is used to loop over the API results and create cards dynamically.
+| Element | Description  |
+|-----------|-----------|
+| Header | Contains back arrow (BsChevronLeft) and search bar |
+| Main Section | Shows saved podcasts and their episodes |
+| Episode Entries	 | Each includes title, date added, favorite icon, and play button |
 
-3. Card contents
-Each podcast card includes:
-- Podcast image
-- Title
-- Number of seasons
-- Genre tags (mapped from local genres.js)
-- Last updated date (formatted, e.g. “2 days ago”)
+<br/>
 
-4. Responsive Layout
-- CSS Grid/Flexbox ensures podcasts display neatly across mobile, tablet, and desktop.
+#### 4. PodcastDetails.jsx
+Displays detailed information for a single podcast based on its id parameter.
+Responsibilities:
+- Fetch specific podcast data via fetchPodcastDeatils
+- Display metadata (title, description, genres, last updated date)
+- Render dynamic season and episode lists
+- Handle loading and error states 
+
+```
+| Section | Purpose  |
+|-----------|-----------|
+| Header | Back navigation to the homepage |
+| Podcast Info | Image, title, description, genres, updated date |
+| Season Dropdown	 | Allows selecting a season |
+| Episodes List | Displays all episodes for the selected season |
+
+```
+
+<br/>
+
+#### 5. SearchBar.jsx
+An input for filtering podcasts.
+Responsibilities:
+- Accepts two props: searchQuery and setSearchQuery
+- Updates parent component’s state when user types
+- Styled with a BsSearch icon
+
+<br/>
+
+### API Service
+
+```fetchPodcast()``` : Fetches all podcasts from the base API : ```GET https://podcast-api.netlify.app/```
+
+- Triggers loading state
+- Fetches all podcasts
+- Sets state after 1s delay
+- Catches and logs any errors
+
+```fetchPodcastDeatils(id)``` : Fetches detailed information for a single podcast : ```GET https://podcast-api.netlify.app/id/{id}```
+
+- Sets loading to true at start
+- Fetches detailed podcast data
+- Updates state with returned object
+- Handles network or API errors
+
+<br/>
+
+### Technologies Used
+- React 
+- React Router DOM
+- Styling	CSS Modules / Custom Classes
+- Icons	React Icons (Bootstrap & Ionicons)
+- Date Formatting	date-fns
+- API	Fetch API 
+
+<br/>
+
+### Installation & Setup
+
+1. Clone repository
+```
+git clone https://github.com/yarlinlynn/YARSTR25495_FTO2505-B_Yarlin-Struis_DJS05.git
+```
+2. Navigate to project directory
+```
+cd podcast-app
+```
+3. Install dependencies
+```
+npm install
+```
+4. Start development server
+```
+npm run dev
+```
+
+> Visit http://localhost:5173 (or your dev server port).
 
 <br/>
 
