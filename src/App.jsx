@@ -1,14 +1,21 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import HomePage from '../components/Pages/HomePage.jsx';
-// import LibraryPage from '../components/Pages/LibraryPage.jsx';
 import FavouritesPage from '../components/Pages/Favourites.jsx';
 import PodcastDetails from '../components/Podcast/PodcastModal.jsx';
-import Header from '../components/Header/Header';
-import PodcastGrid from '../components/Podcast/PodcastGrid.jsx';
-import { getGenreTitles, genresDropDown } from '../utils/getGenres.js';
-import Modal from "../components/Podcast/PodcastModal.jsx";
 
+/**
+ * App component — the root component that defines all application routes.
+ * 
+ * This component uses `react-router-dom` to configure navigation between pages:
+ * - `/` → **HomePage**
+ * - `/favourites` → **FavouritesPage**
+ * - `/podcast/:id` → **PodcastDetails**
+ * 
+ * Serves as the entry point 
+ * 
+ * @returns {JSX.Element} The root component that renders route definitions.
+ */
 function App() {
 
 

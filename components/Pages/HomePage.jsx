@@ -5,6 +5,18 @@ import PodcastGrid from '../../components/Podcast/PodcastGrid.jsx';
 import { getGenreTitles, genresDropDown } from '../../utils/getGenres.js';
 import Header from '../Header/Header.jsx';
 
+/**
+ * HomePage component — displays a list of podcasts with search, genre filtering, sorting, and pagination.
+ * 
+ * This component:
+ * - Fetches podcast data from an external API.
+ * - Allows users to search podcasts by title.
+ * - Filters podcasts by genre.
+ * - Sorts podcasts by title (A→Z or Z→A) and other criteria (Recently Updated, Most Popular, Newest).
+ * - Displays paginated results with navigation controls.
+ * 
+ * @returns {JSX.Element} A React component rendering the podcast discovery homepage.
+ */
 function HomePage() {
     const [podcasts, setPodcast] = useState([]);
     const [loading, setLoading] = useState(true);

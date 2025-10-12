@@ -9,14 +9,15 @@ import { BsFillCaretRightFill, BsFillSuitHeartFill, BsFillArrowLeftCircleFill } 
 import "../Podcast/Podcast.css";
 
 /**
- * Renders a modal displaying details of a selected podcast.
- * @param {Object} props - Component props.
- * @param {boolean} props.isOpen - Whether the modal is open.
- * @param {Object|null} props.podcast - The selected podcast object.
- * @param {Function} props.onClose - Function to close the modal.
- * @returns {JSX.Element|null} The rendered modal or null if not open.
+ * PodcastDetails component — displays detailed information about a specific podcast.
+ * 
+ * This component:
+ * - Retrieves a podcast ID from the URL via `useParams()`
+ * - Displays the podcast title, image, description, genres, update date, and season list
+ * - Allows the user to select a season and view its episodes
+ * 
+ * @returns {JSX.Element} A React component rendering the podcast details page.
  */
-
 
 function PodcastDetails() {
     const { id } = useParams();
