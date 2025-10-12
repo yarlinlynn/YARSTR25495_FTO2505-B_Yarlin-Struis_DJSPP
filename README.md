@@ -24,13 +24,11 @@ Responsibilities:
 - Sets up Routes using react-router-dom
 - Renders HomePage, FavouritesPage, and PodcastDetails based on the URL path
 
-```
 | Path | Component | Description |
 |-----------|-----------|-----------|
 | / | HomePage | Displays podcast list with filters |
 | /favourites | FavouritesPage | Shows saved episodes |
 | /podcast/:id | PodcastDetails | Displays detailed podcast info |
-```
 
 #### 2. HomePage.jsx
 The main discovery page where users browse all podcasts.
@@ -42,7 +40,6 @@ Core Responsibilities:
 - Sorting and pagination
 - Render dynamic podcast cards and pagination controls
 
-```
 | Section | Purpose  |
 |-----------|-----------|
 | State Declarations | Manage app data, filters, pagination, and UI states |
@@ -51,7 +48,6 @@ Core Responsibilities:
 | Pagination| Slices the data array into smaller pages |
 | Effects| Fetches podcasts on mount and resets pagination on new search |
 | Render | Displays search bar, dropdown filters, loading/error states, and paginated results |
-```
 
 <br/>
 
@@ -78,7 +74,6 @@ Responsibilities:
 - Render dynamic season and episode lists
 - Handle loading and error states 
 
-```
 | Section | Purpose  |
 |-----------|-----------|
 | Header | Back navigation to the homepage |
@@ -86,7 +81,6 @@ Responsibilities:
 | Season Dropdown	 | Allows selecting a season |
 | Episodes List | Displays all episodes for the selected season |
 
-```
 
 <br/>
 
