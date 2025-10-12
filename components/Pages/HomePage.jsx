@@ -4,6 +4,7 @@ import { fetchPodcast } from '../../utils/fetchData.js';
 import PodcastGrid from '../../components/Podcast/PodcastGrid.jsx';
 import { getGenreTitles, genresDropDown } from '../../utils/getGenres.js';
 import Header from '../Header/Header.jsx';
+import RecommendedPodcast from '../Podcast/RecommendedPodcast.jsx';
 
 /**
  * HomePage component — displays a list of podcasts with search, genre filtering, sorting, and pagination.
@@ -74,6 +75,8 @@ function HomePage() {
     return (
         <>
             <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+
+            <RecommendedPodcast/>
 
             <section className='container'>
                 <select className='genres' value={selectedGenre} onChange={e => setSelectedGenre(e.target.value)}>
