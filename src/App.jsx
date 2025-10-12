@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from '../components/Shared/ThemeContext.jsx';
 import './App.css';
 import HomePage from '../components/Pages/HomePage.jsx';
 import FavouritesPage from '../components/Pages/Favourites.jsx';
@@ -18,15 +19,15 @@ import PodcastDetails from '../components/Podcast/PodcastModal.jsx';
  */
 function App() {
 
-
   return (
     <>
-    
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/favourites" element={<FavouritesPage />} />
-      <Route path="/podcast/:id" element={<PodcastDetails />} />
-    </Routes>
+    <ThemeProvider>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/favourites" element={<FavouritesPage />} />
+        <Route path="/podcast/:id" element={<PodcastDetails />} />
+      </Routes>
+    </ThemeProvider>
       
 
     </>

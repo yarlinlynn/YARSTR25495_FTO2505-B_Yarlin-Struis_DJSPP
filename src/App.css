@@ -1,3 +1,18 @@
+/* :root {
+  --bg-color: #ffffff;
+  --text-color: #222;
+  --header-bg: #f5f5f5;
+  --card-bg: #ffffff;
+}
+
+
+body.dark {
+  --bg-color: #121212;
+  --text-color: #f1f1f1;
+  --header-bg: #1f1f1f;
+  --card-bg: #1e1e1e;
+} */
+
 :root {
   --white: #FFFFFF;
   --soft-red: #FF9898;
@@ -11,6 +26,16 @@
   --black: #000112;
   --soft-indigo: #A8A4FF;
   --indigo: #635FC7;
+}
+
+body{
+  background-color: var(--white);
+  color: var(--black)
+}
+
+body.dark {
+  background-color: var(--black);
+  color: var(--white)
 }
 
 @keyframes spin {
@@ -148,12 +173,19 @@ input:focus { outline: none; }
 }
 
 /* main */
-main, .browse {
+main { 
+  margin-bottom: 4rem; 
+  position: relative;
+}
+
+.render-podcast, .browse {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
   padding: 2rem;
 }
+
+.render-podcast { color: var(--black); }
 
 /* container for filter buttons */
 
@@ -178,7 +210,13 @@ main, .browse {
 }
 
 /* pagination */
-.pagination-container { margin-bottom: 1rem; }
+.pagination-container { 
+  position: sticky;;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-top: 1.5rem;
+}
 
 .pagination {
   display: flex;
@@ -195,8 +233,8 @@ main, .browse {
 }
 
 @media screen and (min-width: 768px) {
-  main, .browse { 
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  .render-podcast, .browse { 
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
   }
 
   .loading-container > div { width: 300px;}

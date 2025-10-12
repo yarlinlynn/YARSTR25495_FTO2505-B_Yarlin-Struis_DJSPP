@@ -4,6 +4,7 @@ import {
   BsSun, BsMoon
 } from 'react-icons/bs';
 import { SearchBar } from '../Shared/SearchBar.jsx';
+import ThemeToggle from '../Shared/ThemeToggle.jsx';
 import './Header.css';
 
 
@@ -21,10 +22,7 @@ function DekstopHeader( { searchQuery, setSearchQuery } ) {
                 </Link>
             </nav>
             <div className='profile'></div>
-            <button className='theme-btn'>
-                <BsSun />
-                <BsMoon />
-            </button>
+            <ThemeToggle/>
         </header>
     )
 }

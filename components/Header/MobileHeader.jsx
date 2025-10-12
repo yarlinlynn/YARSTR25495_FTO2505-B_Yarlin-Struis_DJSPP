@@ -3,8 +3,8 @@ import { Link} from 'react-router-dom';
 import { SearchBar } from '../Shared/SearchBar';
 import {
   BsSearch, BsHeart, BsX,
-  BsSun, BsMoon
 } from 'react-icons/bs';
+import ThemeToggle from '../Shared/ThemeToggle.jsx';
 import './Header.css';
 
 function MobileHeader( { searchQuery, setSearchQuery } ) {
@@ -38,10 +38,7 @@ function MobileHeader( { searchQuery, setSearchQuery } ) {
                         </div>
                 )}
                 
-                <button className='theme-btn'>
-                    <BsSun />  
-                    <BsMoon/>
-                </button>
+                <ThemeToggle/>
             </div>
             
         </header>

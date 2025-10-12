@@ -18,7 +18,7 @@ import RecommendedPodcast from '../Podcast/RecommendedPodcast.jsx';
  * 
  * @returns {JSX.Element} A React component rendering the podcast discovery homepage.
  */
-function HomePage() {
+function HomePage( {theme, toggleTheme} ) {
     const [podcasts, setPodcast] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -27,8 +27,6 @@ function HomePage() {
     const [searchQuery, setSearchQuery] = useState('');
 
     const [selectedGenre, setSelectedGenre] = useState('All');
-
-    const [openModal, setOpenModal] = useState(null);
 
     const [sortOrder, setSortOrder] = useState("az");
 
@@ -74,7 +72,7 @@ function HomePage() {
 
     return (
         <>
-            <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+            <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} theme={theme} toggleTheme={toggleTheme}/>
 
             <RecommendedPodcast/>
 
@@ -96,6 +94,7 @@ function HomePage() {
             </section>
 
             <main>
+                <section className='render-podcast'>
 
                 {loading ? ( 
                 <div className='loading-container'>
@@ -120,27 +119,31 @@ function HomePage() {
                         <PodcastGrid key={podcast.id} podcast={podcast} />
                     </Link>
                 ))
-            }
+                }
+
+                </section>
+
+                <section className='pagination-container'>
+                    <ul className='pagination'>
+                    <li className='page-item'>
+                        <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.max(p - 1, 1))}>Prev</a>
+                    </li>
+                    {
+                        numbers.map( (n) => (
+                        <li key={n} className={`page-item ${currentPage === n ? 'active' : ''}`}>
+                            <a href='#' className='page-link' onClick={() => setCurrentPage(n)}>{n}</a>
+                        </li>
+                        ))
+                    }
+                    <li className='page-item'>
+                        <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.min(p + 1, totalPages))}>Next</a>
+                    </li>
+                    </ul>
+                </section>
 
             </main>
 
-            <section className='pagination-container'>
-                <ul className='pagination'>
-                <li className='page-item'>
-                    <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.max(p - 1, 1))}>Prev</a>
-                </li>
-                {
-                    numbers.map( (n) => (
-                    <li key={n} className={`page-item ${currentPage === n ? 'active' : ''}`}>
-                        <a href='#' className='page-link' onClick={() => setCurrentPage(n)}>{n}</a>
-                    </li>
-                    ))
-                }
-                <li className='page-item'>
-                    <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.min(p + 1, totalPages))}>Next</a>
-                </li>
-                </ul>
-            </section>
+            
         </>
     )
 }
