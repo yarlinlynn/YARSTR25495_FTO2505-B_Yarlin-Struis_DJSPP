@@ -5,6 +5,7 @@ import PodcastGrid from '../../components/Podcast/PodcastGrid.jsx';
 import { getGenreTitles, genresDropDown } from '../../utils/getGenres.js';
 import Header from '../Header/Header.jsx';
 import RecommendedPodcast from '../Podcast/RecommendedPodcast.jsx';
+import AudioPlayer from '../AudioPlayer/AudioPlayer.jsx';
 
 /**
  * HomePage component — displays a list of podcasts with search, genre filtering, sorting, and pagination.
@@ -143,7 +144,7 @@ function HomePage( {theme, toggleTheme} ) {
 
             </main>
 
-            
+            <AudioPlayer/>
         </>
     )
 }
