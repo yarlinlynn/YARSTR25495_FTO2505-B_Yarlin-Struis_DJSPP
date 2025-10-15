@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { fetchPodcastDeatils } from '../../utils/fetchData.js';
 
 import { format, parseISO } from "date-fns";
-import { BsFillCaretRightFill, BsFillSuitHeartFill, BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { BsFillCaretRightFill, BsSuitHeart, BsSuitHeartFill, BsFillArrowLeftCircleFill, BsPlayCircle } from "react-icons/bs";
 
 import "../Podcast/Podcast.css";
 
@@ -65,16 +65,15 @@ function PodcastDetails() {
                     <p>{podcast.description}</p>
                     <div className='grid-info'>
                         <div className='genres-list'>
-                            <h4>Gneres:</h4>
-                            {podcast.genres && podcast.genres.length > 0 ? (
-                                podcast.genres.map((genre) => (
+                            <h4>Genres:</h4>
+                            <div className='genres-list'>
+                                {genres.map((genre) => (
                                     <span key={genre} className="genre-pill">
                                         {genre}
                                     </span>
                                 ))
-                                ) : (
-                                    <span>No genres available</span>
-                                )}
+                            }
+                            </div>
                         </div>
                         <div className='podcast-date'>
                             <h4>Last Updated:</h4>
@@ -96,7 +95,7 @@ function PodcastDetails() {
                     {/* season dropdown */}
                     {seasons.map( (s, i) => (
                         <option key={s.season} value={i}>
-                            Season {s.season}
+                            Season {s.season} 
                         </option>
                     ))}
                 </select>
@@ -104,21 +103,28 @@ function PodcastDetails() {
                 {currentSeason ? (
                     <div className="season-container">
                         <h4>
-                            Season {currentSeason.season}
+                            Season {currentSeason.season} - {currentSeason.title}
                         </h4>
                         <ul className="episode-list">
                             {currentSeason.episodes.map((ep, index) => (
-                                <li key={ep.id} className="episode-item">
-                                    {/* <button className='play-episode'>
-                                        <BsFillCaretRightFill />
-                                    </button> */}
+                                <li key={index} className="episode-item">
+                                    <div className='image-button'>
+                                        <img className='episode-image' src={currentSeason.image} alt={podcast.title}/>
+                                        <button className='play-episode'>
+                                            {/* <BsFillCaretRightFill /> */}
+                                            <BsPlayCircle />
+                                        </button>
+                                    </div>
                                     <div className='episode'>
                                         <p className='episode-count'>Episode {index + 1} </p>
                                         <p className='episode-title'>{ep.title}</p>
                                     </div>
-                                    {/* <button className='add-to-favourites'>
-                                        <BsFillSuitHeartFill />
-                                    </button> */}
+                                    <div className='favourite-btn'>
+                                        <button className='add-to-favourites'>
+                                            <BsSuitHeart />
+                                            {/* <BsSuitHeartFill /> */}
+                                        </button>
+                                    </div>
                                 <span></span>
                                 </li>
                             ))}

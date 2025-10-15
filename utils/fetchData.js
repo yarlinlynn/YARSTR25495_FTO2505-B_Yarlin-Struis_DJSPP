@@ -56,7 +56,7 @@ export async function fetchPodcastDeatils(id, setPodcast, setLoading, setError) 
         }
         const podcast = await response.json();
         setPodcast(podcast);
-        console.log("Fetched podcast:", podcast)
+        // console.log("Fetched podcast:", podcast)
     } catch(error) {
         setError(error)
     } finally {
