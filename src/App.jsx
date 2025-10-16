@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { FavouritesProvider } from '../components/Shared/FavouritesContext.jsx'
 import { ThemeProvider } from '../components/Shared/ThemeContext.jsx';
 import './App.css';
 import HomePage from '../components/Pages/HomePage.jsx';
@@ -21,12 +22,15 @@ function App() {
 
   return (
     <>
+    
     <ThemeProvider>
+      <FavouritesProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/favourites" element={<FavouritesPage />} />
         <Route path="/podcast/:id" element={<PodcastDetails />} />
       </Routes>
+      </FavouritesProvider>
     </ThemeProvider>
       
 

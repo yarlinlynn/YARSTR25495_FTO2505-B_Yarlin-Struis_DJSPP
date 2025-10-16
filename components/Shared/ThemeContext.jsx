@@ -7,25 +7,24 @@ const ThemeContext = createContext();
  * Provides light/dark theme state across the app.
  */
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("light");
 
-  // On mount, check localStorage or system preference
-  useEffect(() => {
+    const getInitialTheme = () => {
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      setTheme(storedTheme);
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
+    if (storedTheme) return storedTheme;
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return "dark";
     }
-  }, []);
+    return "light";
+  };
 
-  // Apply theme class to <body> and persist it
+  const [theme, setTheme] = useState(getInitialTheme);
+
+  // Apply theme class and persist
   useEffect(() => {
     document.body.className = theme;
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Toggle between light/dark
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };

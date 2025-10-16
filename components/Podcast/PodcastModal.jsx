@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from "react";
+import { FavouritesContext } from '../Shared/FavouritesContext.jsx';
 import { useParams, Link } from 'react-router-dom';
 
 import { fetchPodcastDeatils } from '../../utils/fetchData.js';
 
 import { format, parseISO } from "date-fns";
-import { BsFillCaretRightFill, BsSuitHeart, BsSuitHeartFill, BsFillArrowLeftCircleFill, BsPlayCircle } from "react-icons/bs";
-
+import { BsSuitHeart, BsSuitHeartFill, BsFillArrowLeftCircleFill, BsPlayCircle, BsHeart } from "react-icons/bs";
+import ThemeToggle from '../Shared/ThemeToggle.jsx';
 import "../Podcast/Podcast.css";
 
 /**
@@ -27,7 +28,43 @@ function PodcastDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-     useEffect(() => {
+    const { favourites, setFavourites } = useContext(FavouritesContext);
+    const toggleFavourite = (episode, index) => {
+    const uniqueId = `${podcast.id}-${currentSeason.season}-${index}`;
+
+    const isFav = favourites.some(fav => fav.id === uniqueId);
+
+    if (isFav) {
+        const updatedFavs = favourites.filter(fav => fav.id !== uniqueId);
+        setFavourites(updatedFavs);
+        localStorage.setItem("favourites", JSON.stringify(updatedFavs));
+    } else {
+        const episodeWithDetails = {
+        id: uniqueId,
+        podcastId: podcast.id,
+        podcastTitle: podcast.title,
+        title: episode.title,
+        description: episode.description || podcast.description,
+        image: podcast.image,
+        file: episode.file || null,
+        episode: index + 1,
+        dateAdded: new Date().toISOString(),
+        };
+
+        const updatedFavs = [...favourites, episodeWithDetails];
+        setFavourites(updatedFavs);
+        localStorage.setItem("favourites", JSON.stringify(updatedFavs));
+    }
+    };
+
+
+    const isFavourite = (episode, index) => {
+        const uniqueId = `${podcast.id}-${currentSeason.season}-${index}`;
+        return favourites.some(fav => fav.id === uniqueId);
+    };
+
+
+    useEffect(() => {
         if (id) fetchPodcastDeatils(id, setPodcast, setLoading, setError);
     }, [id])
 
@@ -53,9 +90,15 @@ function PodcastDetails() {
 
     return (
         <>
-        <Link to='/' className='homepage-icon'>
-        <BsFillArrowLeftCircleFill /> Back
-        </Link>
+        <div className='podcast-details-header'>
+            <Link to='/' className='homepage-icon'>
+                <BsFillArrowLeftCircleFill /> Back
+            </Link>
+            <Link to='/favourites' className='favourites-icon'>
+                <BsHeart/>
+            </Link>
+            <ThemeToggle/>
+        </div>
 
         <div className='podcast-details-page'>
             <section className='podcast-details'>
@@ -64,7 +107,7 @@ function PodcastDetails() {
                     <h3>{podcast.title}</h3>
                     <p>{podcast.description}</p>
                     <div className='grid-info'>
-                        <div className='genres-list'>
+                        <div className='genres-container'>
                             <h4>Genres:</h4>
                             <div className='genres-list'>
                                 {genres.map((genre) => (
@@ -107,11 +150,10 @@ function PodcastDetails() {
                         </h4>
                         <ul className="episode-list">
                             {currentSeason.episodes.map((ep, index) => (
-                                <li key={index} className="episode-item">
+                                <li key={ep.id || index} className="episode-item">
                                     <div className='image-button'>
                                         <img className='episode-image' src={currentSeason.image} alt={podcast.title}/>
                                         <button className='play-episode'>
-                                            {/* <BsFillCaretRightFill /> */}
                                             <BsPlayCircle />
                                         </button>
                                     </div>
@@ -120,9 +162,12 @@ function PodcastDetails() {
                                         <p className='episode-title'>{ep.title}</p>
                                     </div>
                                     <div className='favourite-btn'>
-                                        <button className='add-to-favourites'>
-                                            <BsSuitHeart />
-                                            {/* <BsSuitHeartFill /> */}
+                                        <button className='add-to-favourites' onClick={() => toggleFavourite(ep, index)}>
+                                            {isFavourite(ep, index) ? ( 
+                                                <BsSuitHeartFill color="red" />
+                                            ) : (
+                                                <BsSuitHeart />
+                                            )}
                                         </button>
                                     </div>
                                 <span></span>

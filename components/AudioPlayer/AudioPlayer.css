@@ -2,13 +2,13 @@
     width: 100%;
     position: fixed;
     bottom: 0;
-    background: var(--white);
+    background: var(--bg-color);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     height: 60px;
     padding-inline: 1rem;
-    box-shadow: 0px -3px 5px -1px var(--background-light);
+    box-shadow: 0px -3px 5px -1px var(--header-bg);
 }
 
 .audio-playing {
