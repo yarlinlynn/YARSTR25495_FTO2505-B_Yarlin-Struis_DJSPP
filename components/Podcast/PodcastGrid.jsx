@@ -25,12 +25,12 @@ function PodcastGrid( {podcast} ) {
             <div className="podcast-container">
                 <h2 className="title">{podcast.title}</h2>
                 <p className="podcast-season">{podcast.seasons} seasons</p>
-                <p className="podcast-date">Updated: <span>{formattedDate}</span></p>
-                {/* <div className="genres-list">
+                <div className="genres-list">
                     {getGenreTitles(podcast).map( (title, i) => (
                         <p key={i} className='genre'>{title}</p>
                     ))} 
-                </div> */}
+                </div>
+                <p className="podcast-date">Updated: <span>{formattedDate}</span></p>
             </div>
             
         </section>
