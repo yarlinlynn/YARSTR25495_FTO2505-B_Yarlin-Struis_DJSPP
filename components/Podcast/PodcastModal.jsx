@@ -3,10 +3,12 @@ import { FavouritesContext } from '../Shared/FavouritesContext.jsx';
 import { useParams, Link } from 'react-router-dom';
 
 import { fetchPodcastDeatils } from '../../utils/fetchData.js';
+// import { getGenreTitles, genresDropDown } from '../../utils/getGenres.js';
 
 import { format, parseISO } from "date-fns";
 import { BsSuitHeart, BsSuitHeartFill, BsFillArrowLeftCircleFill, BsPlayCircle, BsHeart } from "react-icons/bs";
 import ThemeToggle from '../Shared/ThemeToggle.jsx';
+
 import "../Podcast/Podcast.css";
 
 /**
@@ -47,7 +49,8 @@ function PodcastDetails() {
         description: episode.description || podcast.description,
         image: podcast.image,
         file: episode.file || null,
-        episode: index + 1,
+        episode: index + 1,     
+        season: currentSeason?.season || selectedSeason + 1,   
         dateAdded: new Date().toISOString(),
         };
 
@@ -83,9 +86,7 @@ function PodcastDetails() {
 
     const genres = podcast.genres || [];
     const seasons = podcast.seasons || [];
-
     const currentSeason = seasons[selectedSeason];
-
     const formattedDate = format(parseISO(podcast.updated), "MMMM d, yyyy");
 
     return (

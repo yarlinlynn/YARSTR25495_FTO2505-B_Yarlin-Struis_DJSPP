@@ -203,8 +203,8 @@ main {
   gap: 1rem;
 }
 
-.page-link:hover:not(.active):not(.disabled) {
-  background: #f0f0f0;
+.page-link:hover {
+  background: none;
 }
 .page-link.disabled {
   opacity: 0.5;
@@ -227,7 +227,7 @@ main {
 
   .container { justify-content: end; }
 
-  .dropdown-elements select { font-size: 1rem; }
+  .dropdown-elements select { font-size: 0.7rem; }
  
 }
 
@@ -240,6 +240,14 @@ main {
 .no-saved-episodes {
   margin: 2rem auto;
   font-size: 1.3rem;
+}
+
+.sort-favourites {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .saved-podcast {

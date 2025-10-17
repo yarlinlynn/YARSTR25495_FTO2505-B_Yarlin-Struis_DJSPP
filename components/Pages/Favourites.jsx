@@ -1,19 +1,15 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useContext } from "react";
+import { useState, useContext } from "react";
 
 import { FavouritesContext } from "../Shared/FavouritesContext.jsx";
 import { useFilter } from '../Shared/FilterContext.jsx'
 
 import { format, parseISO } from "date-fns";
+import { BsChevronLeft, BsSuitHeartFill, BsPlayCircleFill } from "react-icons/bs";
 
 import { SearchBar } from '../Shared/SearchBar.jsx';
 import ThemeToggle from '../Shared/ThemeToggle.jsx';
-// import { GenreDropdown, SortDropdown } from '../Shared/DropdownElements.jsx';
-// import { genresDropDown, getGenreTitles } from '../../utils/getGenres.js'
-
-
-import { BsChevronLeft, BsSuitHeartFill, BsPlayCircleFill } from "react-icons/bs";
+import { SortDropdown } from '../Shared/DropdownElements.jsx';
 
 /**
  * FavouritesPage component — displays the saved podcast episodes.
@@ -28,12 +24,36 @@ import { BsChevronLeft, BsSuitHeartFill, BsPlayCircleFill } from "react-icons/bs
  * 
  * @returns {JSX.Element} A React component displaying the favourites page layout.
  */
-function FavouritesPage( { searchQuery, setSearchQuery } ) {
+function FavouritesPage() {
 
   const { favourites } = useContext(FavouritesContext);
-  const { selectedGenre, sortOption } = useFilter();
+  const { sortOption } = useFilter();
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const groupedFavourites = favourites.reduce((groups, fav) => {
+  let sortedFavourites = [...favourites];
+
+
+  // Apply sorting logic
+  if (sortOption === "az") {
+    sortedFavourites.sort((a, b) =>
+      a.podcastTitle.localeCompare(b.podcastTitle)
+    );
+  } else if (sortOption === "za") {
+    sortedFavourites.sort((a, b) =>
+      b.podcastTitle.localeCompare(a.podcastTitle)
+    );
+  } else if (sortOption === "newest") {
+    sortedFavourites.sort(
+      (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)
+    );
+  } else if (sortOption === "oldest") {
+    sortedFavourites.sort(
+      (a, b) => new Date(a.dateAdded) - new Date(b.dateAdded)
+    );
+  }
+
+  // Groups related podcast epsiode together
+  const groupedFavourites = sortedFavourites.reduce((groups, fav) => {
     const title = fav.podcastTitle || "Unknown Podcast";
     if (!groups[title]) groups[title] = [];
     groups[title].push(fav);
@@ -53,6 +73,11 @@ function FavouritesPage( { searchQuery, setSearchQuery } ) {
     <div className='favourites'>
       <h2>Favourite Episodes</h2> 
       <p>Your saved episodes from all shows</p>
+
+      <div className="sort-favourites">
+        <label>Sort by:</label>
+        <SortDropdown />
+      </div>
 
       {favourites.length === 0 ? (
         <p className='no-saved-episodes'>You haven't added any favourites yet.</p>
@@ -78,7 +103,7 @@ function FavouritesPage( { searchQuery, setSearchQuery } ) {
 
                 <div className="episode-info">
                   <h5 className="episode-title">
-                    Episode {ep.episode}: {ep.title}
+                    Season {ep.season} — Episode {ep.episode}: {ep.title}
                   </h5>
                   {ep.description && (
                     <p className="episode-description">
@@ -90,7 +115,7 @@ function FavouritesPage( { searchQuery, setSearchQuery } ) {
                   <p className="date-added">
                     Added on{" "}
                     {ep.dateAdded
-                      ? format(parseISO(ep.dateAdded), "MMM dd, yyyy")
+                      ? format(parseISO(ep.dateAdded), "MMM dd, yyyy, hh:mm a")
                       : "Unknown date"}
                   </p>
                 </div>
