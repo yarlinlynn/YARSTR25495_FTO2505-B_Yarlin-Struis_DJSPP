@@ -179,10 +179,7 @@ main {
   padding-inline: 2rem;
 }
 
-.all-podcast,
-.genres,
-.sort,
-.date {
+.dropdown-elements select {
   padding: 5px 20px;
   letter-spacing: 1px;
   font-size: 0.5rem;
@@ -206,11 +203,19 @@ main {
   gap: 1rem;
 }
 
-.page-item.active { 
+.page-link:hover:not(.active):not(.disabled) {
+  background: #f0f0f0;
+}
+.page-link.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.page-link.active {
   background: var(--indigo);
-  color: var(--bg-color);
+  color: white;
   padding: 5px 10px;
   border-radius: 60vh;
+  cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {
@@ -219,6 +224,11 @@ main {
   }
 
   .loading-container > div { width: 300px;}
+
+  .container { justify-content: end; }
+
+  .dropdown-elements select { font-size: 1rem; }
+ 
 }
 
 /* favourites page */

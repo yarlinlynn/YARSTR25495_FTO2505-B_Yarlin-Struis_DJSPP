@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { FavouritesProvider } from '../components/Shared/FavouritesContext.jsx'
 import { ThemeProvider } from '../components/Shared/ThemeContext.jsx';
+import { FilterProvider } from '../components/Shared/FilterContext.jsx';
 import './App.css';
 import HomePage from '../components/Pages/HomePage.jsx';
 import FavouritesPage from '../components/Pages/Favourites.jsx';
@@ -24,13 +25,15 @@ function App() {
     <>
     
     <ThemeProvider>
-      <FavouritesProvider>
+      <FilterProvider>
+      <FavouritesProvider> 
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/favourites" element={<FavouritesPage />} />
         <Route path="/podcast/:id" element={<PodcastDetails />} />
       </Routes>
       </FavouritesProvider>
+      </FilterProvider>
     </ThemeProvider>
       
 

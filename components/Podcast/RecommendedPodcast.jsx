@@ -3,23 +3,33 @@ import { useNavigate } from "react-router-dom";
 import { fetchPodcast } from '../../utils/fetchData.js';
 import { getGenreTitles } from '../../utils/getGenres.js'
 
-function RecommendedPodcast() {
+/**
+ * Displays a list of recommended podcasts.
+ * Fetches podcasts from the API and selects a random subset to display and changes on refresh.
+ *
+ * @component
+ * @returns {JSX.Element} The recommended podcasts section
+ */
+function RecommendedPodcast() { 
+
     const [podcasts, setPodcasts] = useState([]);
+    const [randomPodcasts, setRandomPodcasts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);   
 
     const navigatePage = useNavigate();
 
+    // Fetch podcasts
     useEffect(() => {
-    fetchPodcast(setPodcasts, setLoading, setError);
-  }, []);
+        fetchPodcast(setPodcasts, setLoading, setError);
+    }, []);
 
-  const randomPodcastList = (list, count = 10) => {
-    const shuffled = [...list].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-  };
-
-  const randomPodcasts = randomPodcastList(podcasts);
+    useEffect(() => {
+        if (podcasts.length > 0) {
+            const shuffled = [...podcasts].sort(() => 0.5 - Math.random());
+            setRandomPodcasts(shuffled.slice(0, 10));
+        }
+    }, [podcasts]);
 
   return (
     <>

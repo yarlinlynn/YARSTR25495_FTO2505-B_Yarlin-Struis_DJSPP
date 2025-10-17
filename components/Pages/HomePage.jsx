@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useFilter } from '../Shared/FilterContext.jsx';
+
 import { fetchPodcast } from '../../utils/fetchData.js';
-import PodcastGrid from '../../components/Podcast/PodcastGrid.jsx';
-import { getGenreTitles, genresDropDown } from '../../utils/getGenres.js';
+
 import Header from '../Header/Header.jsx';
+import PodcastGrid from '../../components/Podcast/PodcastGrid.jsx';
 import RecommendedPodcast from '../Podcast/RecommendedPodcast.jsx';
-import AudioPlayer from '../AudioPlayer/AudioPlayer.jsx';
+// import AudioPlayer from '../AudioPlayer/AudioPlayer.jsx';
+
+import { getGenreTitles, genresDropDown } from '../../utils/getGenres.js';
+import { GenreDropdown, SortDropdown } from '../Shared/DropdownElements.jsx';
+
+// import IoCloseOutline from "react-icons/bs";
 
 /**
  * HomePage component — displays a list of podcasts with search, genre filtering, sorting, and pagination.
@@ -19,79 +26,62 @@ import AudioPlayer from '../AudioPlayer/AudioPlayer.jsx';
  * 
  * @returns {JSX.Element} A React component rendering the podcast discovery homepage.
  */
-function HomePage( {theme, toggleTheme} ) {
+function HomePage() {
+
     const [podcasts, setPodcast] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState("");
 
-    const [selectedGenre, setSelectedGenre] = useState('All');
-
-    const [sortOrder, setSortOrder] = useState("az");
-
-    const [filterOption, setFilterOption] = useState("Recently Updated");
+    const { selectedGenre, sortOption } = useFilter();
 
     const itemsPerPage = 10;
-    const filteredPodcasts = podcasts
-    .filter( (podcast) => podcast.title.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    .filter(podcast => {
-      if (selectedGenre === "All") return true;
-      const podcastGenreTitles = getGenreTitles(podcast);
-      return podcastGenreTitles.includes(selectedGenre);
-    });
-  
-    const filteredAndSorted = [...filteredPodcasts].sort((a, b) => {
-      if (filterOption === "Recently Updated") {
-        return new Date(b.updated) - new Date(a.updated); 
-      } else if (filterOption === "Most Popular") {
-        return b.popularity - a.popularity; 
-      } else if (filterOption === "Newest") {
-        return new Date(b.created) - new Date(a.created); 
-      }
-      return 0;
-    });
-  
+
+    useEffect(() => {
+        fetchPodcast(setPodcast, setLoading, setError);
+    }, []);
+
     const genreOptions = genresDropDown(podcasts);
-  
-    const lastIndex = currentPage * itemsPerPage;
-    const firstIndex = lastIndex - itemsPerPage;
-    const records = filteredAndSorted.slice(firstIndex, lastIndex);
-  
-    const totalPages = Math.ceil(filteredPodcasts.length / itemsPerPage)
-    const numbers = [...Array(totalPages + 1).keys()].slice(1);
 
-    useEffect( () => {
-        fetchPodcast( setPodcast, setLoading, setError )
-    }, [])
+    // Filter
+    const filteredPodcasts = podcasts.filter((podcast) => {
+    const matchesSearch = podcast.title.toLowerCase().includes(searchQuery.toLowerCase());
+    if (selectedGenre === "All") return matchesSearch;
+    const podcastGenres = getGenreTitles(podcast);
+        return matchesSearch && podcastGenres.includes(selectedGenre);
+    });
 
-    useEffect( () => {
-      setCurrentPage(1);
-    }, [searchQuery]);
+    // sort
+    const sortedPodcasts = [...filteredPodcasts].sort((a, b) => {
+        switch (sortOption) {
+        case "az": return a.title.localeCompare(b.title);
+        case "za": return b.title.localeCompare(a.title);
+        case "newest": return new Date(b.created) - new Date(a.created);
+        case "oldest": return new Date(a.created) - new Date(b.created);
+        default: return 0;
+        }
+    });
+
+    // Pagination
+    const totalPages = Math.ceil(sortedPodcasts.length / itemsPerPage);
+    const firstIndex = (currentPage - 1) * itemsPerPage;
+    const currentRecords = sortedPodcasts.slice(firstIndex, firstIndex + itemsPerPage);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchQuery, selectedGenre, sortOption]);
 
     return (
         <>
-            <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} theme={theme} toggleTheme={toggleTheme}/>
+            <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
             <RecommendedPodcast/>
 
-            <section className='container'>
-                <select className='genres' value={selectedGenre} onChange={e => setSelectedGenre(e.target.value)}>
-                {genreOptions.map(title => (
-                    <option key={title} value={title}>{title}</option>
-                ))}
-                </select>
-                <select className='sort'  value={sortOrder} onChange={e => setSortOrder(e.target.value)}>
-                <option value="az">A → Z</option>
-                <option value="za">Z → A</option>
-                </select>
-                <select  className='date' value={filterOption} onChange={e => setFilterOption(e.target.value)}>
-                <option value="Recently Updated">Recently Updated</option>
-                <option value="Most Popular">Most Popular</option>
-                <option value="Newest">Newest</option>
-                </select>
+            <section className='container dropdown-elements'>
+                <GenreDropdown genres={genreOptions} />
+                <SortDropdown />
             </section>
 
             <main>
@@ -109,13 +99,13 @@ function HomePage( {theme, toggleTheme} ) {
                 ) : error ? (
                     <div className="error-container">
                     <div className='error'>
-                        <IoCloseOutline  className='error-icon' />
+                        {/* <IoCloseOutline  className='error-icon' /> */}
                     </div>
                     <p className="error-message">
                         Failed to fetch Podcasts from API. Please refresh webpage
                     </p>
                     </div>
-                ) : records.map( (podcast) => (
+                ) : currentRecords.map( (podcast) => (
                     <Link key={podcast.id} to={`/podcast/${podcast.id}`}>
                         <PodcastGrid key={podcast.id} podcast={podcast} />
                     </Link>
@@ -123,30 +113,50 @@ function HomePage( {theme, toggleTheme} ) {
                 }
 
                 </section>
-
-                <section className='pagination-container'>
-                    <ul className='pagination'>
-                    <li className='page-item'>
-                        <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.max(p - 1, 1))}>Prev</a>
-                    </li>
-                    {
-                        numbers.map( (n) => (
-                        <li key={n} className={`page-item ${currentPage === n ? 'active' : ''}`}>
-                            <a href='#' className='page-link' onClick={() => setCurrentPage(n)}>{n}</a>
+                
+                <section className="pagination-container">
+                    <ul className="pagination">
+                        {/* Prev button */}
+                        <li>
+                        <button
+                            className={`page-link prev ${currentPage === 1 ? "disabled" : ""}`}
+                            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            Prev
+                        </button>
                         </li>
-                        ))
-                    }
-                    <li className='page-item'>
-                        <a href='#' className='page-link' onClick={ () => setCurrentPage( (p) => Math.min(p + 1, totalPages))}>Next</a>
-                    </li>
+
+                        {/* Page numbers */}
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                        <li key={n}>
+                            <button
+                            className={`page-link ${n === currentPage ? "active" : ""}`}
+                            onClick={() => setCurrentPage(n)}
+                            >
+                            {n}
+                            </button>
+                        </li>
+                        ))}
+
+                        {/* Next button */}
+                        <li>
+                        <button
+                            className={`page-link next ${currentPage === totalPages ? "disabled" : ""}`}
+                            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next
+                        </button>
+                        </li>
                     </ul>
                 </section>
-
             </main>
 
-            <AudioPlayer/>
+            {/* <AudioPlayer/> */}
         </>
     )
 }
 
 export default HomePage
+

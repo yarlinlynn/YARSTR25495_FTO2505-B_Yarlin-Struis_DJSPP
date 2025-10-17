@@ -9,6 +9,7 @@
   padding: 10px;
   background: var(--card-bg);
   height: 300px;
+  position: relative;
 }
 
 .podcast-card:hover {
@@ -34,7 +35,7 @@
 .genres-list {
   display: flex;
   gap: 0.5rem;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
 }
 
 .genre {
@@ -48,7 +49,11 @@
   background: var(--light-grey);
   color: var(--black);
 }
-.podcast-date { font-size: 13px; }
+.podcast-container > .podcast-date { 
+  font-size: 13px; 
+  position: absolute;
+  bottom: 0.5rem;
+}
 
 /* podcast modal */
 .modal {
@@ -91,7 +96,7 @@
 }
 
 @media (min-width: 768px) {
-  .podcast-card { height: 320px; }
+  .podcast-card { height: 350px; }
 
   .modal-content { position: relative; }
 
@@ -347,6 +352,7 @@
 
 .rec-genres-list {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   font-size: 11px;
 }

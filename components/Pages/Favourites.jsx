@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useContext } from "react";
+
 import { FavouritesContext } from "../Shared/FavouritesContext.jsx";
+import { useFilter } from '../Shared/FilterContext.jsx'
+
 import { format, parseISO } from "date-fns";
+
 import { SearchBar } from '../Shared/SearchBar.jsx';
 import ThemeToggle from '../Shared/ThemeToggle.jsx';
-import { Link } from 'react-router-dom';
+// import { GenreDropdown, SortDropdown } from '../Shared/DropdownElements.jsx';
+// import { genresDropDown, getGenreTitles } from '../../utils/getGenres.js'
+
+
 import { BsChevronLeft, BsSuitHeartFill, BsPlayCircleFill } from "react-icons/bs";
 
 /**
@@ -23,6 +31,7 @@ import { BsChevronLeft, BsSuitHeartFill, BsPlayCircleFill } from "react-icons/bs
 function FavouritesPage( { searchQuery, setSearchQuery } ) {
 
   const { favourites } = useContext(FavouritesContext);
+  const { selectedGenre, sortOption } = useFilter();
 
   const groupedFavourites = favourites.reduce((groups, fav) => {
     const title = fav.podcastTitle || "Unknown Podcast";
@@ -107,5 +116,7 @@ function FavouritesPage( { searchQuery, setSearchQuery } ) {
     </>
   );
 }
+
+
 
 export default FavouritesPage;
