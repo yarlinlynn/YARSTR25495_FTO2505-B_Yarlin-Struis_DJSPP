@@ -250,6 +250,12 @@ main {
   justify-content: flex-end;
 }
 
+.sort-favourites .sort {
+  background: none;
+  color: var(--text-color);
+  padding: 5px 10px;
+}
+
 .saved-podcast {
   display: grid;
   gap: 1rem;
