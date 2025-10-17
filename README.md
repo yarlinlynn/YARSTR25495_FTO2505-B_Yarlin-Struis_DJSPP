@@ -13,6 +13,7 @@ The Podcast app is a single-page React application (SPA) that fetches podcast da
 The app is structured around modular React components, each handling a specific UI or data logic task.
 
 live app: https://yarstr-25495-fto-2505-b-yarlin-stru.vercel.app/
+<br/>
 project walkthrough:
 https://www.loom.com/share/852117dc84f043b587a5a3ae6faa1965?sid=3802bc52-43cb-4f38-9232-0dc4fae0b93a
 
